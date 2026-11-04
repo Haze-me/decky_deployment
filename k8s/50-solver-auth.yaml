@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solver-auth
+  namespace: solver
+  labels:
+    app: solver-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: solver-auth
+  template:
+    metadata:
+      labels:
+        app: solver-auth
+    spec:
+      securityContext:
+        runAsUser: 65532
+        runAsNonRoot: true
+      containers:
+        - name: solver-auth
+          image: haze21/solver-auth:dev-3
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef: { name: solver-auth-config }
+            - secretRef: { name: solver-auth-secrets }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          readinessProbe:
+            httpGet: { path: /health, port: 8000 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /health, port: 8000 }
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests: { cpu: 100m, memory: 192Mi }
+            limits: { memory: 384Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: solver-auth
+  namespace: solver
+spec:
+  selector:
+    app: solver-auth
+  ports:
+    - port: 80
+      targetPort: 8000

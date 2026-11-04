@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: solver-auth-config
+  namespace: solver
+data:
+  PROJECT_NAME: "solver-auth"
+  ENVIRONMENT: "dev"
+  LOG_LEVEL: "INFO"
+  JWT_ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+  REFRESH_TOKEN_EXPIRE_DAYS: "7"
+  REGISTRATION_TOKEN_EXPIRE_MINUTES: "30"
+  RESEND_SENDER_EMAIL: "noreply@emchrismobility.com"
+  AWS_REGION: "us-east-1"
+  AWS_S3_BUCKET: "placeholder"
+  AWS_S3_PUBLIC_BASE_URL: "https://placeholder.example.com"
+  OTP_EXPIRE_MINUTES: "10"
+  OTP_MAX_ATTEMPTS: "5"
+  OTP_RESEND_COOLDOWN_SECONDS: "60"
+  MAX_PROFILE_IMAGE_SIZE_MB: "5"
+  MAX_ID_DOCUMENT_SIZE_MB: "10"
+  MAX_SELFIE_SIZE_MB: "5"
+  MAX_POST_IMAGE_SIZE_MB: "10"
+  MAX_POST_VIDEO_SIZE_MB: "50"
+  MAX_POST_MEDIA_ITEMS: "10"
+  FRONTEND_ORIGINS: "https://auth.emchrismobility.com"
+  COOKIE_DOMAIN: "auth.emchrismobility.com"
+  COOKIE_SECURE: "true"
+  COOKIE_SAMESITE: "lax"
+  GOOGLE_CLIENT_ID: "placeholder"

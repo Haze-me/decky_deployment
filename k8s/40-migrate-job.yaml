@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: solver-auth-migrate
+  namespace: solver
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsUser: 65532
+        runAsNonRoot: true
+      containers:
+        - name: migrate
+          image: haze21/solver-auth:dev-3
+          command: ["python3", "-m", "alembic", "upgrade", "head"]
+          envFrom:
+            - configMapRef: { name: solver-auth-config }
+            - secretRef: { name: solver-auth-secrets }
