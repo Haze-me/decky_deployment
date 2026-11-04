@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: solver-auth-tls
+  namespace: solver
+spec:
+  secretName: solver-auth-tls
+  dnsNames:
+    - auth.emchrismobility.com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
